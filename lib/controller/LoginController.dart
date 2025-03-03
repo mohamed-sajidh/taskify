@@ -18,7 +18,7 @@ class LoginController extends GetxController {
 
       if (userCredential.user != null) {
         // ✅ Navigate to HomePage after successful login
-        Get.to(() => const HomePage());
+        Get.offAll(() => const HomePage());
         return userCredential.user;
       } else {
         Get.snackbar(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taskify/controller/AddTaskController.dart';
 import 'package:taskify/utils/appColors.dart';
+import 'package:taskify/view/home/delete_popup.dart';
 
 class AddTask extends StatefulWidget {
   final Map<String, dynamic>? task;
@@ -62,8 +63,6 @@ class _AddTaskState extends State<AddTask> {
     timeController = TextEditingController(
       text: widget.task?['complete_time'] ?? '',
     );
-
-    print("------------ the task is not empty -=====> ${widget.task}");
   }
 
   @override
@@ -77,7 +76,7 @@ class _AddTaskState extends State<AddTask> {
   void saveTask() async {
     final AddtaskController addtaskController = Get.find<AddtaskController>();
     if (anFormKey.currentState!.validate()) {
-      if (widget.task == null) {
+      if (widget.task == null || widget.task!.isEmpty) {
         // Add new task
         await addtaskController.addTask(
           taskController.text,
@@ -116,9 +115,11 @@ class _AddTaskState extends State<AddTask> {
                     color: AppColors.white,
                   ),
                 ),
-                const Text(
-                  'Add Task',
-                  style: TextStyle(
+                Text(
+                  widget.task == null || widget.task!.isEmpty
+                      ? 'Add Task'
+                      : 'Edit Task',
+                  style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     color: AppColors.white,
                   ),
@@ -126,7 +127,12 @@ class _AddTaskState extends State<AddTask> {
               ],
             ),
             IconButton(
-              onPressed: () => Get.back(),
+              onPressed: widget.task == null || widget.task!.isEmpty
+                  ? null
+                  : () {
+                    showDeleteWishlistDialog(context, widget.task!['id']);
+                      // addtaskController.deleteTask(widget.task!['id']);
+                    },
               icon: const Icon(
                 Icons.delete,
                 color: AppColors.white,
@@ -232,8 +238,27 @@ class _AddTaskState extends State<AddTask> {
             Expanded(
               child: Obx(
                 () => ElevatedButton(
-                  onPressed:
-                      addtaskController.isLoading.isTrue ? null : saveTask,
+                  onPressed: addtaskController.isLoading.isTrue
+                      ? null
+                      : () async {
+                          if (anFormKey.currentState!.validate()) {
+                            if (widget.task == null || widget.task!.isEmpty) {
+                              addtaskController.addTask(
+                                taskController.text,
+                                dateController.text,
+                                timeController.text,
+                              );
+                              Get.back();
+                            } else {
+                              await addtaskController.updateTask(
+                                widget.task!['id'],
+                                taskController.text,
+                                dateController.text,
+                                timeController.text,
+                              );
+                            }
+                          }
+                        },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primaryColor,
                     padding: const EdgeInsets.symmetric(vertical: 15),
@@ -243,9 +268,11 @@ class _AddTaskState extends State<AddTask> {
                   ),
                   child: addtaskController.isLoading.isTrue
                       ? const CircularProgressIndicator()
-                      : const Text(
-                          'Add Task',
-                          style: TextStyle(
+                      : Text(
+                          widget.task == null || widget.task!.isEmpty
+                              ? 'Add Task'
+                              : 'Edit Task',
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: AppColors.white,

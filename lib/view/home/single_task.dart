@@ -32,6 +32,9 @@ class SingleTask extends StatelessWidget {
                   value: addtaskController.isCheckedList[index],
                   onChanged: (bool? value) {
                     addtaskController.toggleCheckbox(index);
+                    Future.delayed(const Duration(seconds: 1), () {
+                      addtaskController.updateStatus(task['id']);
+                    });
                   },
                   activeColor: AppColors.containerColor,
                   side: const BorderSide(color: AppColors.white, width: 1),
