@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:taskify/utils/appAssets.dart';
 import 'package:taskify/utils/appColors.dart';
-import 'package:taskify/view/auth_screens/create_accont.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class CreateAccont extends StatefulWidget {
+  const CreateAccont({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<CreateAccont> createState() => _CreateAccontState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _CreateAccontState extends State<CreateAccont> {
   bool passwordVisible = true;
+  late final TextEditingController usernameController;
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
   final GlobalKey<FormState> anFormKey = GlobalKey<FormState>();
@@ -20,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+    usernameController = TextEditingController();
     emailController = TextEditingController();
     passwordController = TextEditingController();
     passwordVisible = true;
@@ -27,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
+    usernameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: const EdgeInsets.only(
             left: 20,
             right: 20,
-            top: 80,
+            top: 140,
           ),
           child: Form(
             key: anFormKey,
@@ -50,22 +50,95 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Center(
-                  child: Image.asset(
-                    AppAssets.loginIcon,
-                    height: 100,
-                    width: 100,
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "Create an Account",
+                    style: TextStyle(
+                      fontSize: 25,
+                      color: AppColors.black,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
-                const Text(
-                  "Sign In",
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: AppColors.black,
-                    fontWeight: FontWeight.w700,
+                const SizedBox(height: 40),
+                const Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    "Username",
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: AppColors.black,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 70),
+                const SizedBox(height: 5),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: TextFormField(
+                    obscureText: false,
+                    controller: usernameController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'required';
+                      }
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 16.0,
+                        horizontal: 10.0,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                        borderSide: BorderSide(
+                          color: AppColors.black,
+                          width: 1.0,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                        borderSide: BorderSide(
+                          color: AppColors.black,
+                          width: 1.0,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                        borderSide: BorderSide(
+                          color: AppColors.green,
+                          width: 2.0,
+                        ),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                        borderSide: BorderSide(
+                          color: AppColors.red,
+                          width: 2.0,
+                        ),
+                      ),
+                      filled: true,
+                      fillColor: AppColors.primaryColor,
+                      hintText: "Username",
+                      errorStyle: TextStyle(height: 0.1),
+                      hintStyle: TextStyle(
+                        fontSize: 13,
+                        // color: AppColors.primaryColor,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
                 const Align(
                   alignment: Alignment.bottomLeft,
                   child: Text(
@@ -251,7 +324,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (anFormKey.currentState!.validate()) {}
                     },
                     child: const Text(
-                      'SIGN IN',
+                      'Create Account',
                       style: TextStyle(
                         fontSize: 15,
                         color: AppColors.primaryColor,
@@ -259,35 +332,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 35,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Don't Have an account?",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.black,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Get.to(() => const CreateAccont());
-                      },
-                      child: const Text(
-                        "Register Now",
-                        style: TextStyle(
-                          color: AppColors.secondaryColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
               ],
             ),
