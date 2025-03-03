@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:taskify/controller/CreateUserController.dart';
 import 'package:taskify/utils/appColors.dart';
 
 class CreateAccont extends StatefulWidget {
@@ -10,7 +12,6 @@ class CreateAccont extends StatefulWidget {
 
 class _CreateAccontState extends State<CreateAccont> {
   bool passwordVisible = true;
-  late final TextEditingController usernameController;
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
   final GlobalKey<FormState> anFormKey = GlobalKey<FormState>();
@@ -18,7 +19,6 @@ class _CreateAccontState extends State<CreateAccont> {
   @override
   void initState() {
     super.initState();
-    usernameController = TextEditingController();
     emailController = TextEditingController();
     passwordController = TextEditingController();
     passwordVisible = true;
@@ -26,7 +26,6 @@ class _CreateAccontState extends State<CreateAccont> {
 
   @override
   void dispose() {
-    usernameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -35,6 +34,8 @@ class _CreateAccontState extends State<CreateAccont> {
   @override
   Widget build(BuildContext context) {
     final anFormKey = GlobalKey<FormState>();
+    final CreateUserController createUserController =
+        Get.put(CreateUserController());
     return Scaffold(
       backgroundColor: AppColors.white,
       body: SingleChildScrollView(
@@ -62,83 +63,6 @@ class _CreateAccontState extends State<CreateAccont> {
                   ),
                 ),
                 const SizedBox(height: 40),
-                const Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Text(
-                    "Username",
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: AppColors.black,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 5),
-                SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: TextFormField(
-                    obscureText: false,
-                    controller: usernameController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'required';
-                      }
-                      return null;
-                    },
-                    decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(
-                        vertical: 16.0,
-                        horizontal: 10.0,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                        borderSide: BorderSide(
-                          color: AppColors.black,
-                          width: 1.0,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                        borderSide: BorderSide(
-                          color: AppColors.black,
-                          width: 1.0,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                        borderSide: BorderSide(
-                          color: AppColors.green,
-                          width: 2.0,
-                        ),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                        borderSide: BorderSide(
-                          color: AppColors.red,
-                          width: 2.0,
-                        ),
-                      ),
-                      filled: true,
-                      fillColor: AppColors.white,
-                      hintText: "Username",
-                      errorStyle: TextStyle(height: 0.1),
-                      hintStyle: TextStyle(
-                        fontSize: 13,
-                        // color: AppColors.primaryColor,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
                 const Align(
                   alignment: Alignment.bottomLeft,
                   child: Text(
@@ -312,24 +236,35 @@ class _CreateAccontState extends State<CreateAccont> {
                 SizedBox(
                   width: double.infinity,
                   height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.secondaryColor,
-                      foregroundColor: AppColors.primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                  child: Obx(
+                    () => ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.secondaryColor,
+                        foregroundColor: AppColors.primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                    ),
-                    onPressed: () {
-                      if (anFormKey.currentState!.validate()) {}
-                    },
-                    child: const Text(
-                      'Create Account',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: AppColors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      onPressed: createUserController.isLoading.isTrue
+                          ? null
+                          : () async {
+                              if (anFormKey.currentState!.validate()) {
+                                createUserController.registerUser(
+                                  emailController.text,
+                                  passwordController.text,
+                                );
+                              }
+                            },
+                      child: createUserController.isLoading.isTrue
+                          ? const CircularProgressIndicator()
+                          : const Text(
+                              'Create Account',
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: AppColors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                     ),
                   ),
                 ),
