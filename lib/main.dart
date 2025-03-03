@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taskify/utils/appColors.dart';
-import 'package:taskify/view/test.dart';
+import 'package:taskify/view/auth_screens/login_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         primaryColor: AppColors.primaryColor,
         useMaterial3: true,
       ),
-      home: const DemoScreen(),
+      home: const LoginScreen(),
     );
   }
 }
