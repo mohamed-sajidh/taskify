@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:taskify/utils/appAssets.dart';
 import 'package:taskify/utils/appColors.dart';
 import 'package:taskify/view/auth_screens/create_accont.dart';
+import 'package:taskify/view/home/home_page.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -248,7 +249,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     onPressed: () {
-                      if (anFormKey.currentState!.validate()) {}
+                      // if (anFormKey.currentState!.validate()) {}
+                      Get.to(() => const HomePage());
                     },
                     child: const Text(
                       'SIGN IN',
