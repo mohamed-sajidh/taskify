@@ -4,7 +4,11 @@ import 'package:taskify/controller/AddTaskController.dart';
 import 'package:taskify/utils/appColors.dart';
 
 class AddTask extends StatefulWidget {
-  const AddTask({super.key});
+  final Map<String, dynamic>? task;
+  const AddTask({
+    super.key,
+    required this.task,
+  });
 
   @override
   State<AddTask> createState() => _AddTaskState();
@@ -47,9 +51,19 @@ class _AddTaskState extends State<AddTask> {
   @override
   void initState() {
     super.initState();
-    taskController = TextEditingController();
-    dateController = TextEditingController();
-    timeController = TextEditingController();
+
+    // Initialize controllers with task values if available
+    taskController = TextEditingController(
+      text: widget.task?['task'] ?? '',
+    );
+    dateController = TextEditingController(
+      text: widget.task?['complete_date'] ?? '',
+    );
+    timeController = TextEditingController(
+      text: widget.task?['complete_time'] ?? '',
+    );
+
+    print("------------ the task is not empty -=====> ${widget.task}");
   }
 
   @override
@@ -58,6 +72,29 @@ class _AddTaskState extends State<AddTask> {
     dateController.dispose();
     timeController.dispose();
     super.dispose();
+  }
+
+  void saveTask() async {
+    final AddtaskController addtaskController = Get.find<AddtaskController>();
+    if (anFormKey.currentState!.validate()) {
+      if (widget.task == null) {
+        // Add new task
+        await addtaskController.addTask(
+          taskController.text,
+          dateController.text,
+          timeController.text,
+        );
+      } else {
+        // Update existing task
+        await addtaskController.updateTask(
+          widget.task!['id'], // Pass Task ID for update
+          taskController.text,
+          dateController.text,
+          timeController.text,
+        );
+      }
+      Get.back();
+    }
   }
 
   @override
@@ -195,17 +232,8 @@ class _AddTaskState extends State<AddTask> {
             Expanded(
               child: Obx(
                 () => ElevatedButton(
-                  onPressed: addtaskController.isLoading.isTrue
-                      ? null
-                      : () async {
-                          if (anFormKey.currentState!.validate()) {
-                            addtaskController.addTask(
-                              taskController.text,
-                              dateController.text,
-                              timeController.text,
-                            );
-                          }
-                        },
+                  onPressed:
+                      addtaskController.isLoading.isTrue ? null : saveTask,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primaryColor,
                     padding: const EdgeInsets.symmetric(vertical: 15),
