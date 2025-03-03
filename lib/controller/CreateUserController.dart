@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:taskify/utils/appColors.dart';
-import 'package:taskify/view/home/home_page.dart';
+import 'package:taskify/view/auth_screens/login_screen.dart';
 
 class CreateUserController extends GetxController {
   RxBool isLoading = false.obs;
@@ -18,7 +18,7 @@ class CreateUserController extends GetxController {
 
       if (userCredential.user != null) {
         // ✅ Only navigate if user is created
-        Get.to(() => const HomePage());
+        Get.to(() => const LoginScreen());
         return userCredential.user;
       } else {
         Get.snackbar(

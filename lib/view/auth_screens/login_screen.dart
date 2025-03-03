@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:taskify/controller/LoginController.dart';
 import 'package:taskify/utils/appAssets.dart';
 import 'package:taskify/utils/appColors.dart';
 import 'package:taskify/view/auth_screens/create_accont.dart';
@@ -36,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final anFormKey = GlobalKey<FormState>();
+    final LoginController loginController = Get.put(LoginController());
     return Scaffold(
       backgroundColor: AppColors.white,
       body: SingleChildScrollView(
@@ -240,25 +242,35 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   width: double.infinity,
                   height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.secondaryColor,
-                      foregroundColor: AppColors.primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                  child: Obx(
+                    () => ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.secondaryColor,
+                        foregroundColor: AppColors.primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                    ),
-                    onPressed: () {
-                      // if (anFormKey.currentState!.validate()) {}
-                      Get.to(() => const HomePage());
-                    },
-                    child: const Text(
-                      'SIGN IN',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: AppColors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      onPressed: loginController.isLoading.isTrue
+                          ? null
+                          : () async {
+                              if (anFormKey.currentState!.validate()) {
+                                loginController.loginUser(
+                                  emailController.text,
+                                  passwordController.text,
+                                );
+                              }
+                            },
+                      child: loginController.isLoading.isTrue
+                          ? const CircularProgressIndicator()
+                          : const Text(
+                              'SIGN IN',
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: AppColors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                     ),
                   ),
                 ),
