@@ -4,7 +4,6 @@ import 'package:taskify/controller/LoginController.dart';
 import 'package:taskify/utils/appAssets.dart';
 import 'package:taskify/utils/appColors.dart';
 import 'package:taskify/view/auth_screens/create_accont.dart';
-import 'package:taskify/view/home/home_page.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
