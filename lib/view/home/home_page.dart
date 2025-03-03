@@ -10,7 +10,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AddtaskController addtaskController = Get.put(AddtaskController());
+    final AddtaskController addtaskController = Get.find();
+    // final AddtaskController addtaskController = Get.put(AddtaskController());
 
     addtaskController.initializeTasks(30);
 

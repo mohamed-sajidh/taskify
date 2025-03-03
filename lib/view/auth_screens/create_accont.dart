@@ -36,7 +36,7 @@ class _CreateAccontState extends State<CreateAccont> {
   Widget build(BuildContext context) {
     final anFormKey = GlobalKey<FormState>();
     return Scaffold(
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: AppColors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(
@@ -128,7 +128,7 @@ class _CreateAccontState extends State<CreateAccont> {
                         ),
                       ),
                       filled: true,
-                      fillColor: AppColors.primaryColor,
+                      fillColor: AppColors.white,
                       hintText: "Username",
                       errorStyle: TextStyle(height: 0.1),
                       hintStyle: TextStyle(
@@ -205,7 +205,7 @@ class _CreateAccontState extends State<CreateAccont> {
                         ),
                       ),
                       filled: true,
-                      fillColor: AppColors.primaryColor,
+                      fillColor: AppColors.white,
                       hintText: "Email ID",
                       errorStyle: TextStyle(height: 0.1),
                       hintStyle: TextStyle(
@@ -294,7 +294,7 @@ class _CreateAccontState extends State<CreateAccont> {
                         },
                       ),
                       filled: true,
-                      fillColor: AppColors.primaryColor,
+                      fillColor: AppColors.white,
                       hintText: "Password",
                       errorStyle: const TextStyle(height: 0.1),
                       hintStyle: const TextStyle(
@@ -327,7 +327,7 @@ class _CreateAccontState extends State<CreateAccont> {
                       'Create Account',
                       style: TextStyle(
                         fontSize: 15,
-                        color: AppColors.primaryColor,
+                        color: AppColors.white,
                         fontWeight: FontWeight.w600,
                       ),
                     ),

@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final anFormKey = GlobalKey<FormState>();
     return Scaffold(
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: AppColors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(
@@ -133,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       filled: true,
-                      fillColor: AppColors.primaryColor,
+                      fillColor: AppColors.white,
                       hintText: "Email ID",
                       errorStyle: TextStyle(height: 0.1),
                       hintStyle: TextStyle(
@@ -222,7 +222,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                       ),
                       filled: true,
-                      fillColor: AppColors.primaryColor,
+                      fillColor: AppColors.white,
                       hintText: "Password",
                       errorStyle: const TextStyle(height: 0.1),
                       hintStyle: const TextStyle(
@@ -256,7 +256,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       'SIGN IN',
                       style: TextStyle(
                         fontSize: 15,
-                        color: AppColors.primaryColor,
+                        color: AppColors.white,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -285,7 +285,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(
                           color: AppColors.secondaryColor,
                           fontSize: 14,
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
