@@ -47,7 +47,7 @@ class LoginController extends GetxController {
       } else {
         Get.snackbar(
           'Error',
-          e.message ?? 'An unknown error occurred',
+          'Incorrect email/password',
           backgroundColor: AppColors.red,
           colorText: AppColors.white,
         );
